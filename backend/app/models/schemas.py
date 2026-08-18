@@ -4,7 +4,6 @@ from pydantic import BaseModel
 
 
 class OptimizeRequest(BaseModel):
-    scenario_id: str = "base"
     injected_job: Optional[Dict[str, Any]] = None
 
 

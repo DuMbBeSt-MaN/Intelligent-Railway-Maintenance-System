@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+const API_URL = "http://127.0.0.1:8000";
 
 function formatTime(minutes) {
   const day = Math.floor(minutes / 1440);
@@ -18,56 +18,32 @@ function formatTime(minutes) {
 function App() {
   const [result, setResult] = useState(null);
   const [scenario, setScenario] = useState(null);
-  const [scenarioOptions, setScenarioOptions] = useState([]);
-  const [activeScenarioId, setActiveScenarioId] = useState("base");
-  const [pendingScenarioId, setPendingScenarioId] = useState("base");
-  const [scenarioDialogOpen, setScenarioDialogOpen] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const activeScenario = useMemo(
-    () => scenarioOptions.find((item) => item.id === activeScenarioId),
-    [scenarioOptions, activeScenarioId]
-  );
-
-  async function loadAndOptimizeScenario(scenarioId) {
+  async function runOptimization() {
     try {
       setLoading(true);
       setError(null);
 
-      const scenarioResponse = await fetch(
-        `${API_URL}/api/scenarios/${scenarioId}`
-      );
-
-      if (!scenarioResponse.ok) {
-        throw new Error(`Could not load scenario: ${scenarioResponse.status}`);
-      }
-
-      const scenarioData = await scenarioResponse.json();
-      setScenario(scenarioData);
-
-      const optimizeResponse = await fetch(`${API_URL}/api/optimize`, {
+      const response = await fetch(`${API_URL}/api/optimize`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ scenario_id: scenarioId }),
+        body: JSON.stringify({}),
       });
 
-      if (!optimizeResponse.ok) {
-        throw new Error(`Optimization failed: ${optimizeResponse.status}`);
+      if (!response.ok) {
+        throw new Error(`Optimization failed: ${response.status}`);
       }
 
-      const optimizationData = await optimizeResponse.json();
-      setResult(optimizationData);
-      setActiveScenarioId(scenarioId);
-      setPendingScenarioId(scenarioId);
+      const data = await response.json();
+      setResult(data);
 
-      if (optimizationData.scheduled_jobs?.length) {
-        setSelectedJob(optimizationData.scheduled_jobs[0]);
-      } else {
-        setSelectedJob(null);
+      if (data.scheduled_jobs?.length) {
+        setSelectedJob(data.scheduled_jobs[0]);
       }
     } catch (err) {
       setError(err.message);
@@ -76,48 +52,24 @@ function App() {
     }
   }
 
-  async function runOptimization() {
-    await loadAndOptimizeScenario(activeScenarioId);
-  }
-
-  function openScenarioDialog(preselectedId = activeScenarioId) {
-    setPendingScenarioId(preselectedId);
-    setScenarioDialogOpen(true);
-  }
-
-  async function applySelectedScenario() {
-    setScenarioDialogOpen(false);
-    await loadAndOptimizeScenario(pendingScenarioId);
-  }
-
   useEffect(() => {
-    async function initialize() {
+    async function loadScenario() {
       try {
-        setLoading(true);
-        setError(null);
-
-        const response = await fetch(`${API_URL}/api/scenarios`);
+        const response = await fetch(`${API_URL}/api/scenario`);
 
         if (!response.ok) {
-          throw new Error("Could not load scenario list");
+          throw new Error("Could not load scenario");
         }
 
         const data = await response.json();
-        const options = data.scenarios ?? [];
-        const defaultScenarioId = data.default_scenario_id ?? "base";
-
-        setScenarioOptions(options);
-        setActiveScenarioId(defaultScenarioId);
-        setPendingScenarioId(defaultScenarioId);
-
-        await loadAndOptimizeScenario(defaultScenarioId);
+        setScenario(data);
       } catch (err) {
         setError(err.message);
-        setLoading(false);
       }
     }
 
-    initialize();
+    loadScenario();
+    runOptimization();
   }, []);
 
   const tracks = useMemo(() => {
@@ -139,12 +91,10 @@ function App() {
   }, [result]);
 
   function position(start) {
-    if (maxTime === minTime) return 0;
     return ((start - minTime) / (maxTime - minTime)) * 100;
   }
 
   function width(start, end) {
-    if (maxTime === minTime) return 100;
     return ((end - start) / (maxTime - minTime)) * 100;
   }
 
@@ -188,29 +138,11 @@ function App() {
               Optimize railway maintenance around infrastructure, crews,
               machines, possessions and train occupancy.
             </p>
-            <div className="active-scenario">
-              <span>ACTIVE SCENARIO</span>
-              <strong>{activeScenario?.name ?? result?.scenario_name ?? "Base"}</strong>
-              {activeScenario?.description && <small>{activeScenario.description}</small>}
-            </div>
           </div>
 
-          <div className="hero-actions">
-            <button
-              className="scenario-button"
-              onClick={() => openScenarioDialog()}
-              disabled={loading}
-            >
-              CHOOSE SCENARIO
-            </button>
-            <button
-              className="optimize-button"
-              onClick={runOptimization}
-              disabled={loading}
-            >
-              {loading ? "OPTIMIZING..." : "↻ RE-OPTIMIZE"}
-            </button>
-          </div>
+          <button className="optimize-button" onClick={runOptimization}>
+            {loading ? "OPTIMIZING..." : "↻ RE-OPTIMIZE"}
+          </button>
         </section>
 
         <section className="stats-grid">
@@ -218,7 +150,7 @@ function App() {
             label="PLAN STATUS"
             value={loading ? "..." : result?.status ?? "—"}
             detail="CP-SAT solver result"
-            good={result?.status === "OPTIMAL" || result?.status === "FEASIBLE"}
+            good={result?.status === "OPTIMAL"}
           />
 
           <StatCard
@@ -227,11 +159,11 @@ function App() {
               loading
                 ? "..."
                 : `${result?.summary?.jobs_scheduled ?? 0} / ${
-                    result?.summary?.jobs_total ?? result?.metrics?.jobs_total ?? 0
+                    result?.summary?.jobs_total ?? 0
                   }`
             }
-            detail={`${result?.summary?.mandatory_scheduled ?? result?.metrics?.mandatory_scheduled ?? 0} mandatory · ${
-              result?.summary?.optional_scheduled ?? result?.metrics?.optional_scheduled ?? 0
+            detail={`${result?.summary?.mandatory_scheduled ?? 0} mandatory · ${
+              result?.summary?.optional_scheduled ?? 0
             } optional`}
             good
           />
@@ -262,7 +194,7 @@ function App() {
         <section className="panel timeline-panel">
           <div className="panel-header">
             <div>
-              <span className="eyebrow">OPTIMIZED SCHEDULE</span>
+              <span className="eyebrow">LIVE SCHEDULE</span>
               <h3>Maintenance Timeline</h3>
             </div>
 
@@ -276,73 +208,68 @@ function App() {
             </div>
           </div>
 
-          {result?.scheduled_jobs?.length ? (
-            <div className="timeline">
-              <div className="time-axis">
-                {Array.from({ length: 6 }).map((_, index) => {
-                  const time = minTime + ((maxTime - minTime) / 5) * index;
-
-                  return (
-                    <span key={index} style={{ left: `${index * 20}%` }}>
-                      {formatTime(Math.round(time))}
-                    </span>
-                  );
-                })}
-              </div>
-
-              {tracks.map((track) => {
-                const jobs = result.scheduled_jobs.filter(
-                  (job) => job.track === track
-                );
+          <div className="timeline">
+            <div className="time-axis">
+              {Array.from({ length: 6 }).map((_, index) => {
+                const time =
+                  minTime + ((maxTime - minTime) / 5) * index;
 
                 return (
-                  <div className="track-row" key={track}>
-                    <div className="track-name">{track}</div>
-
-                    <div className="track-lane">
-                      {jobs.map((job) => {
-                        const isMandatory = scenario?.maintenance?.jobs?.find(
-                          (j) => j.id === job.job_id
-                        )?.mandatory;
-
-                        return (
-                          <button
-                            key={job.job_id}
-                            className={`job-block ${
-                              isMandatory ? "mandatory" : "optional"
-                            } ${
-                              selectedJob?.job_id === job.job_id
-                                ? "selected"
-                                : ""
-                            }`}
-                            style={{
-                              left: `${position(job.start)}%`,
-                              width: `${Math.max(width(job.start, job.end), 4)}%`,
-                            }}
-                            onClick={() => setSelectedJob(job)}
-                          >
-                            <strong>{job.job_id}</strong>
-                            <span>
-                              {formatTime(job.start)} – {formatTime(job.end)}
-                            </span>
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
+                  <span key={index} style={{ left: `${index * 20}%` }}>
+                    {formatTime(Math.round(time))}
+                  </span>
                 );
               })}
             </div>
-          ) : (
-            <div className="empty-schedule">
-              <strong>{loading ? "Optimizing scenario..." : "No feasible schedule returned"}</strong>
-              {!loading && (
-                <span>
-                  Try another scenario or inspect the unscheduled mandatory jobs.
-                </span>
-              )}
-            </div>
-          )}
+
+            {tracks.map((track) => {
+              const jobs = result.scheduled_jobs.filter(
+                (job) => job.track === track
+              );
+
+              return (
+                <div className="track-row" key={track}>
+                  <div className="track-name">{track}</div>
+
+                  <div className="track-lane">
+                    {jobs.map((job) => {
+                      const isMandatory =
+                        scenario?.maintenance?.jobs?.find(
+                          (j) => j.id === job.job_id
+                        )?.mandatory;
+
+                      return (
+                        <button
+                          key={job.job_id}
+                          className={`job-block ${
+                            isMandatory ? "mandatory" : "optional"
+                          } ${
+                            selectedJob?.job_id === job.job_id
+                              ? "selected"
+                              : ""
+                          }`}
+                          style={{
+                            left: `${position(job.start)}%`,
+                            width: `${Math.max(
+                              width(job.start, job.end),
+                              4
+                            )}%`,
+                          }}
+                          onClick={() => setSelectedJob(job)}
+                        >
+                          <strong>{job.job_id}</strong>
+                          <span>
+                            {formatTime(job.start)} –{" "}
+                            {formatTime(job.end)}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </section>
 
         <section className="bottom-grid">
@@ -358,7 +285,9 @@ function App() {
               </div>
             </div>
 
-            <ConstraintList validation={result?.validation} />
+            <ConstraintList
+              validation={result?.validation}
+            />
           </section>
 
           <section className="panel job-panel">
@@ -374,9 +303,9 @@ function App() {
                 <Detail label="Track" value={selectedJob.track} />
                 <Detail
                   label="Time"
-                  value={`${formatTime(selectedJob.start)} – ${formatTime(
-                    selectedJob.end
-                  )}`}
+                  value={`${formatTime(
+                    selectedJob.start
+                  )} – ${formatTime(selectedJob.end)}`}
                 />
                 <Detail
                   label="Duration"
@@ -393,7 +322,9 @@ function App() {
                 />
               </div>
             ) : (
-              <p className="muted">Click a maintenance job on the timeline.</p>
+              <p className="muted">
+                Click a maintenance job on the timeline.
+              </p>
             )}
           </section>
         </section>
@@ -405,100 +336,22 @@ function App() {
               <span className="eyebrow">WHAT-IF CONTROL</span>
               <h3>Emergency Maintenance Simulation</h3>
               <p>
-                Select an urgent fault or another disruption and let the optimizer
-                produce a new feasible plan.
+                Inject a critical maintenance job and let the optimizer
+                find a new feasible plan.
               </p>
             </div>
           </div>
 
-          <button
-            className="emergency-button"
-            onClick={() => openScenarioDialog("urgent_track_fault")}
-            disabled={loading}
-          >
+          <button className="emergency-button">
             SIMULATE EMERGENCY
           </button>
         </section>
       </main>
 
       <footer>
-        <span>RAILOPS v0.2</span>
+        <span>RAILOPS v0.1</span>
         <span>OR-Tools CP-SAT · FastAPI · React</span>
       </footer>
-
-      {scenarioDialogOpen && (
-        <div
-          className="scenario-dialog-backdrop"
-          role="presentation"
-          onMouseDown={(event) => {
-            if (event.target === event.currentTarget) {
-              setScenarioDialogOpen(false);
-            }
-          }}
-        >
-          <section
-            className="scenario-dialog"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="scenario-dialog-title"
-          >
-            <div className="scenario-dialog-header">
-              <div>
-                <span className="eyebrow">SIMULATION CONTROL</span>
-                <h3 id="scenario-dialog-title">Choose a railway scenario</h3>
-                <p>
-                  The selected case is fetched from FastAPI and then sent to the
-                  OR-Tools optimizer.
-                </p>
-              </div>
-              <button
-                className="dialog-close"
-                onClick={() => setScenarioDialogOpen(false)}
-                aria-label="Close scenario dialog"
-              >
-                ×
-              </button>
-            </div>
-
-            <div className="scenario-options">
-              {scenarioOptions.map((item) => (
-                <button
-                  key={item.id}
-                  className={`scenario-option ${
-                    pendingScenarioId === item.id ? "selected" : ""
-                  }`}
-                  onClick={() => setPendingScenarioId(item.id)}
-                >
-                  <div className="scenario-option-topline">
-                    <strong>{item.name}</strong>
-                    {item.id === activeScenarioId && (
-                      <span className="current-scenario-badge">CURRENT</span>
-                    )}
-                  </div>
-                  <span>{item.description}</span>
-                  <small>{item.id}</small>
-                </button>
-              ))}
-            </div>
-
-            <div className="scenario-dialog-actions">
-              <button
-                className="dialog-secondary"
-                onClick={() => setScenarioDialogOpen(false)}
-              >
-                CANCEL
-              </button>
-              <button
-                className="optimize-button"
-                onClick={applySelectedScenario}
-                disabled={!pendingScenarioId}
-              >
-                RUN SELECTED SCENARIO
-              </button>
-            </div>
-          </section>
-        </div>
-      )}
     </div>
   );
 }

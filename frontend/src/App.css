@@ -10,11 +10,6 @@
   color: #dce9e5;
 }
 
-button:disabled {
-  opacity: 0.55;
-  cursor: not-allowed;
-}
-
 .topbar {
   height: 76px;
   padding: 0 42px;
@@ -82,7 +77,6 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: end;
-  gap: 28px;
   margin-bottom: 28px;
 }
 
@@ -105,16 +99,8 @@ main {
   font-size: 14px;
 }
 
-.hero-actions {
-  display: flex;
-  gap: 10px;
-  flex-shrink: 0;
-}
-
 .optimize-button,
-.emergency-button,
-.scenario-button,
-.dialog-secondary {
+.emergency-button {
   border: 1px solid #2bd197;
   background: rgba(43, 209, 151, 0.08);
   color: #2bd197;
@@ -126,56 +112,10 @@ main {
   cursor: pointer;
 }
 
-.optimize-button:hover:not(:disabled),
-.emergency-button:hover:not(:disabled) {
+.optimize-button:hover,
+.emergency-button:hover {
   background: #2bd197;
   color: #06100d;
-}
-
-.scenario-button,
-.dialog-secondary {
-  border-color: #355c53;
-  background: rgba(22, 46, 41, 0.55);
-  color: #a8c5bd;
-}
-
-.scenario-button:hover:not(:disabled),
-.dialog-secondary:hover:not(:disabled) {
-  border-color: #2bd197;
-  color: #dff8f0;
-}
-
-.active-scenario {
-  margin-top: 16px;
-  padding: 10px 12px;
-  max-width: 680px;
-  border-left: 2px solid #2bd197;
-  background: rgba(43, 209, 151, 0.045);
-}
-
-.active-scenario span,
-.active-scenario strong,
-.active-scenario small {
-  display: block;
-}
-
-.active-scenario span {
-  color: #56736b;
-  font-size: 9px;
-  font-weight: 800;
-  letter-spacing: 1.4px;
-}
-
-.active-scenario strong {
-  margin-top: 4px;
-  color: #cce2dc;
-  font-size: 13px;
-}
-
-.active-scenario small {
-  margin-top: 3px;
-  color: #617d75;
-  font-size: 10px;
 }
 
 .stats-grid {
@@ -354,25 +294,6 @@ main {
   color: #83a39a;
 }
 
-.empty-schedule {
-  min-height: 180px;
-  display: grid;
-  place-content: center;
-  gap: 7px;
-  padding: 30px;
-  text-align: center;
-}
-
-.empty-schedule strong {
-  color: #dce9e5;
-  font-size: 15px;
-}
-
-.empty-schedule span {
-  color: #647f77;
-  font-size: 11px;
-}
-
 .bottom-grid {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
@@ -510,136 +431,6 @@ main {
   margin-left: 15px;
 }
 
-.scenario-dialog-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 1000;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-  background: rgba(2, 8, 7, 0.78);
-  backdrop-filter: blur(8px);
-}
-
-.scenario-dialog {
-  width: min(820px, 100%);
-  max-height: min(760px, calc(100vh - 48px));
-  overflow: auto;
-  border: 1px solid #29483f;
-  border-radius: 12px;
-  background: #0a1714;
-  box-shadow: 0 22px 70px rgba(0, 0, 0, 0.42);
-}
-
-.scenario-dialog-header {
-  padding: 22px 24px 18px;
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  border-bottom: 1px solid #1c302c;
-}
-
-.scenario-dialog-header h3 {
-  margin: 6px 0 5px;
-  color: #eff9f6;
-  font-size: 21px;
-}
-
-.scenario-dialog-header p {
-  margin: 0;
-  color: #67827a;
-  font-size: 12px;
-}
-
-.dialog-close {
-  width: 34px;
-  height: 34px;
-  flex-shrink: 0;
-  border: 1px solid #29483f;
-  border-radius: 7px;
-  background: transparent;
-  color: #8aa79f;
-  font-size: 22px;
-  cursor: pointer;
-}
-
-.dialog-close:hover {
-  color: #dff8f0;
-  border-color: #2bd197;
-}
-
-.scenario-options {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  padding: 18px 24px;
-}
-
-.scenario-option {
-  min-height: 126px;
-  padding: 15px;
-  border: 1px solid #203a34;
-  border-radius: 8px;
-  background: rgba(15, 32, 28, 0.85);
-  color: #b8cec7;
-  text-align: left;
-  cursor: pointer;
-  transition: 0.15s;
-}
-
-.scenario-option:hover,
-.scenario-option.selected {
-  border-color: #2bd197;
-  background: rgba(43, 209, 151, 0.08);
-}
-
-.scenario-option-topline {
-  display: flex;
-  justify-content: space-between;
-  align-items: start;
-  gap: 10px;
-}
-
-.scenario-option strong {
-  color: #e3f0ec;
-  font-size: 13px;
-}
-
-.scenario-option > span {
-  display: block;
-  margin-top: 9px;
-  color: #718c84;
-  font-size: 11px;
-  line-height: 1.45;
-}
-
-.scenario-option small {
-  display: block;
-  margin-top: 11px;
-  color: #46645c;
-  font-family: monospace;
-  font-size: 9px;
-}
-
-.current-scenario-badge {
-  padding: 4px 6px;
-  border: 1px solid rgba(43, 209, 151, 0.35);
-  border-radius: 4px;
-  color: #2bd197;
-  background: rgba(43, 209, 151, 0.06);
-  font-size: 8px;
-  font-weight: 800;
-  letter-spacing: 1px;
-}
-
-.scenario-dialog-actions {
-  padding: 16px 24px 22px;
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  border-top: 1px solid #1c302c;
-}
-
 footer {
   max-width: 1450px;
   margin: auto;
@@ -672,16 +463,7 @@ footer {
     flex-direction: column;
   }
 
-  .hero-actions {
-    width: 100%;
-    flex-wrap: wrap;
-  }
-
   .constraint-list {
-    grid-template-columns: 1fr;
-  }
-
-  .scenario-options {
     grid-template-columns: 1fr;
   }
 }
@@ -697,30 +479,5 @@ footer {
 
   .topbar {
     height: 65px;
-  }
-
-  .scenario-dialog-backdrop {
-    padding: 12px;
-  }
-
-  .scenario-dialog-header,
-  .scenario-options,
-  .scenario-dialog-actions {
-    padding-left: 16px;
-    padding-right: 16px;
-  }
-
-  .scenario-dialog-actions {
-    flex-direction: column-reverse;
-  }
-
-  .scenario-dialog-actions button {
-    width: 100%;
-  }
-
-  .emergency-panel {
-    align-items: flex-start;
-    gap: 15px;
-    flex-direction: column;
   }
 }
