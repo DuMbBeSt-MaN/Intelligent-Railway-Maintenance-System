@@ -1,0 +1,11 @@
+{
+  "source_note": "Synthetic engineering access windows inspired by possession/restriction concepts in Network Rail EAS and railML possession management.",
+  "possessions": [
+    {"id":"P01","tracks":["MAS_BBQ_UP","MAS_BBQ_DN"],"start":1450,"end":1580,"kind":"planned_night_access"},
+    {"id":"P02","tracks":["BBQ_PER_UP","BBQ_PER_DN"],"start":1460,"end":1605,"kind":"planned_night_access"},
+    {"id":"P03","tracks":["PER_VLK_UP","PER_VLK_DN"],"start":1470,"end":1620,"kind":"planned_night_access"},
+    {"id":"P04","tracks":["VLK_AVD_UP","VLK_AVD_DN"],"start":1490,"end":1640,"kind":"planned_night_access"},
+    {"id":"P05","tracks":["BBQ_PER_UP"],"start":1660,"end":1770,"kind":"secondary_access"},
+    {"id":"P06","tracks":["VLK_AVD_DN"],"start":1680,"end":1790,"kind":"secondary_access"}
+  ]
+}

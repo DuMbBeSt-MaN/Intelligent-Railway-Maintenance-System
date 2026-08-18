@@ -1,0 +1,8 @@
+{
+  "crews": [
+    {"id":"CREW_TRK_A","skills":["track_inspection","rail_grinding","fastener_work"],"available":[{"start":1320,"end":1680}],"home_station":"PER","max_shift_minutes":480},
+    {"id":"CREW_TRK_B","skills":["track_inspection","ultrasonic_test","fastener_work"],"available":[{"start":1380,"end":1800}],"home_station":"AVD","max_shift_minutes":480},
+    {"id":"CREW_SIG_A","skills":["signal_inspection","signal_repair"],"available":[{"start":1320,"end":1740}],"home_station":"BBQ","max_shift_minutes":420},
+    {"id":"CREW_OHE_A","skills":["ohe_inspection","ohe_repair"],"available":[{"start":1440,"end":1800}],"home_station":"MAS","max_shift_minutes":360}
+  ]
+}
