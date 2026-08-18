@@ -1,0 +1,112 @@
+{
+  "default_scenario_id": "base",
+  "scenarios": [
+    {
+      "id": "base",
+      "name": "Normal Night Maintenance",
+      "description": "Baseline maintenance planning with the original timetable, crews, machines and engineering possessions.",
+      "events": []
+    },
+    {
+      "id": "urgent_track_fault",
+      "name": "Urgent Track Fault",
+      "description": "An emergency track inspection must be inserted into the existing maintenance plan.",
+      "events": [
+        {
+          "type": "inject_job",
+          "job": {
+            "id": "EMG_TRACK_01",
+            "track": "BBQ_PER_UP",
+            "work_type": "track_inspection",
+            "duration": 30,
+            "earliest_start": 1660,
+            "deadline": 1740,
+            "priority": 10,
+            "mandatory": true,
+            "required_skill": "track_inspection",
+            "required_machine_type": null,
+            "preferred_start": 1660,
+            "existing_start": null,
+            "bundle_group": "BBQ_PER"
+          }
+        }
+      ]
+    },
+    {
+      "id": "crew_shortage",
+      "name": "Crew Shortage",
+      "description": "Track Crew B becomes unavailable during part of the engineering window.",
+      "events": [
+        {
+          "type": "crew_unavailable",
+          "crew_id": "CREW_TRK_B",
+          "start": 1500,
+          "end": 1650
+        }
+      ]
+    },
+    {
+      "id": "machine_breakdown",
+      "name": "Rail Grinder Breakdown",
+      "description": "The rail grinder becomes unavailable during its planned operating period.",
+      "events": [
+        {
+          "type": "machine_unavailable",
+          "machine_id": "GRINDER_01",
+          "start": 1440,
+          "end": 1620
+        }
+      ]
+    },
+    {
+      "id": "shortened_possession",
+      "name": "Shortened Engineering Possession",
+      "description": "An engineering possession is unexpectedly shortened, forcing maintenance to be replanned.",
+      "events": [
+        {
+          "type": "shorten_possession",
+          "possession_id": "P03",
+          "new_start": 1500,
+          "new_end": 1590
+        }
+      ]
+    },
+    {
+      "id": "compound_disruption",
+      "name": "Compound Disruption",
+      "description": "An urgent defect, crew shortage and shortened possession occur together.",
+      "events": [
+        {
+          "type": "inject_job",
+          "job": {
+            "id": "EMG_MULTI_01",
+            "track": "PER_VLK_DN",
+            "work_type": "track_inspection",
+            "duration": 30,
+            "earliest_start": 1510,
+            "deadline": 1610,
+            "priority": 10,
+            "mandatory": true,
+            "required_skill": "track_inspection",
+            "required_machine_type": null,
+            "preferred_start": 1510,
+            "existing_start": null,
+            "bundle_group": "PER_VLK"
+          }
+        },
+        {
+          "type": "crew_unavailable",
+          "crew_id": "CREW_TRK_B",
+          "start": 1510,
+          "end": 1570
+        },
+        {
+          "type": "shorten_possession",
+          "possession_id": "P03",
+          "new_start": 1500,
+          "new_end": 1600
+        }
+      ]
+    }
+  ]
+}
