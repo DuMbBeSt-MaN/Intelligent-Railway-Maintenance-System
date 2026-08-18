@@ -1,0 +1,21 @@
+{
+  "name": "Chennai Suburban Night Maintenance Demo",
+  "description": "Synthetic proof-of-concept scenario using realistic railway concepts; not an official Indian Railways dataset.",
+  "files": {
+    "infrastructure": "infrastructure.json",
+    "trains": "trains.json",
+    "possessions": "possessions.json",
+    "crews": "crews.json",
+    "machines": "machines.json",
+    "maintenance": "maintenance.json"
+  },
+  "optimizer": {
+    "time_step_minutes": 5,
+    "weights": {
+      "unscheduled_priority": 10000,
+      "schedule_change_per_minute": 5,
+      "preferred_start_deviation_per_minute": 1,
+      "late_finish_per_minute": 100
+    }
+  }
+}

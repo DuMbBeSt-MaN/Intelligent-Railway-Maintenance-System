@@ -1,0 +1,15 @@
+{
+  "source_note": "Synthetic maintenance workload designed to exercise urgent deadlines, skills, equipment, precedence and opportunity bundling.",
+  "jobs": [
+    {"id":"M001","track":"PER_VLK_DN","work_type":"ultrasonic_test","duration":35,"earliest_start":1460,"deadline":1600,"priority":10,"mandatory":true,"required_skill":"ultrasonic_test","required_machine_type":"ultrasonic_vehicle","preferred_start":1490,"existing_start":null,"bundle_group":"PER_VLK"},
+    {"id":"M002","track":"PER_VLK_DN","work_type":"fastener_work","duration":25,"earliest_start":1470,"deadline":1720,"priority":6,"mandatory":false,"required_skill":"fastener_work","required_machine_type":null,"preferred_start":1540,"existing_start":1560,"bundle_group":"PER_VLK"},
+    {"id":"M003","track":"BBQ_PER_UP","work_type":"rail_grinding","duration":70,"earliest_start":1460,"deadline":1770,"priority":8,"mandatory":true,"required_skill":"rail_grinding","required_machine_type":"rail_grinder","preferred_start":1510,"existing_start":1510,"bundle_group":"BBQ_PER"},
+    {"id":"M004","track":"MAS_BBQ_UP","work_type":"track_inspection","duration":30,"earliest_start":1450,"deadline":1660,"priority":5,"mandatory":false,"required_skill":"track_inspection","required_machine_type":null,"preferred_start":1500,"existing_start":1520,"bundle_group":"MAS_BBQ"},
+    {"id":"M005","track":"VLK_AVD_DN","work_type":"track_inspection","duration":40,"earliest_start":1490,"deadline":1700,"priority":7,"mandatory":true,"required_skill":"track_inspection","required_machine_type":null,"preferred_start":1560,"existing_start":1570,"bundle_group":"VLK_AVD"},
+    {"id":"M006","track":"BBQ_PER_DN","work_type":"signal_inspection","duration":30,"earliest_start":1460,"deadline":1690,"priority":5,"mandatory":false,"required_skill":"signal_inspection","required_machine_type":null,"preferred_start":1580,"existing_start":1590,"bundle_group":"BBQ_PER"},
+    {"id":"M007","track":"VLK_AVD_UP","work_type":"fastener_work","duration":30,"earliest_start":1490,"deadline":1760,"priority":4,"mandatory":false,"required_skill":"fastener_work","required_machine_type":null,"preferred_start":1600,"existing_start":null,"bundle_group":"VLK_AVD"},
+    {"id":"M008","track":"MAS_BBQ_DN","work_type":"signal_repair","duration":45,"earliest_start":1450,"deadline":1580,"priority":9,"mandatory":true,"required_skill":"signal_repair","required_machine_type":null,"preferred_start":1480,"existing_start":1490,"bundle_group":"MAS_BBQ"},
+    {"id":"M009","track":"VLK_AVD_DN","work_type":"ohe_inspection","duration":30,"earliest_start":1680,"deadline":1790,"priority":4,"mandatory":false,"required_skill":"ohe_inspection","required_machine_type":null,"preferred_start":1710,"existing_start":null,"bundle_group":"VLK_AVD"},
+    {"id":"M010","track":"BBQ_PER_UP","work_type":"track_inspection","duration":25,"earliest_start":1660,"deadline":1770,"priority":3,"mandatory":false,"required_skill":"track_inspection","required_machine_type":null,"preferred_start":1690,"existing_start":null,"bundle_group":"BBQ_PER"}
+  ]
+}

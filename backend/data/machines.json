@@ -1,0 +1,7 @@
+{
+  "machines": [
+    {"id":"UTV_01","type":"ultrasonic_vehicle","available":[{"start":1380,"end":1740}],"base_station":"PER"},
+    {"id":"GRINDER_01","type":"rail_grinder","available":[{"start":1440,"end":1800}],"base_station":"AVD"},
+    {"id":"TAMPER_01","type":"tamping_machine","available":[{"start":1500,"end":1800}],"base_station":"AVD"}
+  ]
+}

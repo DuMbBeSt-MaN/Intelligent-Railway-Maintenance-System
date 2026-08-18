@@ -1,0 +1,22 @@
+{
+  "scenario_id": "chennai_suburban_night_demo_v1",
+  "time_unit": "minute_from_service_day_midnight",
+  "planning_horizon": {"start": 1200, "end": 1800},
+  "stations": [
+    {"id": "MAS", "name": "MGR Chennai Central", "km": 0.0},
+    {"id": "BBQ", "name": "Basin Bridge Junction", "km": 3.2},
+    {"id": "PER", "name": "Perambur", "km": 6.6},
+    {"id": "VLK", "name": "Villivakkam", "km": 10.1},
+    {"id": "AVD", "name": "Avadi", "km": 20.0}
+  ],
+  "track_sections": [
+    {"id": "MAS_BBQ_UP", "from": "MAS", "to": "BBQ", "direction": "UP", "length_km": 3.2, "max_speed_kmph": 80},
+    {"id": "MAS_BBQ_DN", "from": "MAS", "to": "BBQ", "direction": "DOWN", "length_km": 3.2, "max_speed_kmph": 80},
+    {"id": "BBQ_PER_UP", "from": "BBQ", "to": "PER", "direction": "UP", "length_km": 3.4, "max_speed_kmph": 90},
+    {"id": "BBQ_PER_DN", "from": "BBQ", "to": "PER", "direction": "DOWN", "length_km": 3.4, "max_speed_kmph": 90},
+    {"id": "PER_VLK_UP", "from": "PER", "to": "VLK", "direction": "UP", "length_km": 3.5, "max_speed_kmph": 90},
+    {"id": "PER_VLK_DN", "from": "PER", "to": "VLK", "direction": "DOWN", "length_km": 3.5, "max_speed_kmph": 90},
+    {"id": "VLK_AVD_UP", "from": "VLK", "to": "AVD", "direction": "UP", "length_km": 9.9, "max_speed_kmph": 100},
+    {"id": "VLK_AVD_DN", "from": "VLK", "to": "AVD", "direction": "DOWN", "length_km": 9.9, "max_speed_kmph": 100}
+  ]
+}

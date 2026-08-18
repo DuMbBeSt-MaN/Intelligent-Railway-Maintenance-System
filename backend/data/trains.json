@@ -1,0 +1,29 @@
+{
+  "source_note": "Synthetic movements shaped like fixed timetable occupancy records. Times are minutes from service-day midnight; values above 1440 are after midnight.",
+  "trains": [
+    {"id":"EXP_12601","service_type":"express_passenger","priority_weight":10,"occupancies":[
+      {"track":"MAS_BBQ_DN","start":1230,"end":1236},{"track":"BBQ_PER_DN","start":1236,"end":1242},{"track":"PER_VLK_DN","start":1242,"end":1248},{"track":"VLK_AVD_DN","start":1248,"end":1260}]},
+    {"id":"EMU_43011","service_type":"suburban_passenger","priority_weight":7,"occupancies":[
+      {"track":"MAS_BBQ_DN","start":1260,"end":1267},{"track":"BBQ_PER_DN","start":1267,"end":1274},{"track":"PER_VLK_DN","start":1274,"end":1281},{"track":"VLK_AVD_DN","start":1281,"end":1296}]},
+    {"id":"FRT_GN01","service_type":"freight","priority_weight":3,"occupancies":[
+      {"track":"VLK_AVD_UP","start":1305,"end":1323},{"track":"PER_VLK_UP","start":1323,"end":1331},{"track":"BBQ_PER_UP","start":1331,"end":1339},{"track":"MAS_BBQ_UP","start":1339,"end":1347}]},
+    {"id":"EXP_16022","service_type":"express_passenger","priority_weight":10,"occupancies":[
+      {"track":"MAS_BBQ_DN","start":1340,"end":1347},{"track":"BBQ_PER_DN","start":1347,"end":1354},{"track":"PER_VLK_DN","start":1354,"end":1361},{"track":"VLK_AVD_DN","start":1361,"end":1373}]},
+    {"id":"EMU_43021","service_type":"suburban_passenger","priority_weight":7,"occupancies":[
+      {"track":"VLK_AVD_UP","start":1370,"end":1385},{"track":"PER_VLK_UP","start":1385,"end":1392},{"track":"BBQ_PER_UP","start":1392,"end":1399},{"track":"MAS_BBQ_UP","start":1399,"end":1406}]},
+    {"id":"FRT_GN02","service_type":"freight","priority_weight":3,"occupancies":[
+      {"track":"MAS_BBQ_DN","start":1425,"end":1433},{"track":"BBQ_PER_DN","start":1433,"end":1441},{"track":"PER_VLK_DN","start":1441,"end":1449},{"track":"VLK_AVD_DN","start":1449,"end":1467}]},
+    {"id":"EXP_12671","service_type":"express_passenger","priority_weight":10,"occupancies":[
+      {"track":"VLK_AVD_UP","start":1475,"end":1488},{"track":"PER_VLK_UP","start":1488,"end":1495},{"track":"BBQ_PER_UP","start":1495,"end":1502},{"track":"MAS_BBQ_UP","start":1502,"end":1509}]},
+    {"id":"EMU_43031","service_type":"suburban_passenger","priority_weight":7,"occupancies":[
+      {"track":"MAS_BBQ_DN","start":1510,"end":1517},{"track":"BBQ_PER_DN","start":1517,"end":1524},{"track":"PER_VLK_DN","start":1524,"end":1531},{"track":"VLK_AVD_DN","start":1531,"end":1545}]},
+    {"id":"FRT_GN03","service_type":"freight","priority_weight":3,"occupancies":[
+      {"track":"VLK_AVD_UP","start":1580,"end":1598},{"track":"PER_VLK_UP","start":1598,"end":1606},{"track":"BBQ_PER_UP","start":1606,"end":1614},{"track":"MAS_BBQ_UP","start":1614,"end":1622}]},
+    {"id":"EXP_12673","service_type":"express_passenger","priority_weight":10,"occupancies":[
+      {"track":"MAS_BBQ_DN","start":1640,"end":1647},{"track":"BBQ_PER_DN","start":1647,"end":1654},{"track":"PER_VLK_DN","start":1654,"end":1661},{"track":"VLK_AVD_DN","start":1661,"end":1674}]},
+    {"id":"EMU_43041","service_type":"suburban_passenger","priority_weight":7,"occupancies":[
+      {"track":"VLK_AVD_UP","start":1695,"end":1710},{"track":"PER_VLK_UP","start":1710,"end":1717},{"track":"BBQ_PER_UP","start":1717,"end":1724},{"track":"MAS_BBQ_UP","start":1724,"end":1731}]},
+    {"id":"FRT_GN04","service_type":"freight","priority_weight":3,"occupancies":[
+      {"track":"MAS_BBQ_DN","start":1760,"end":1768},{"track":"BBQ_PER_DN","start":1768,"end":1776},{"track":"PER_VLK_DN","start":1776,"end":1784},{"track":"VLK_AVD_DN","start":1784,"end":1800}]}
+  ]
+}
